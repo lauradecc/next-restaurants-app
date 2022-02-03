@@ -36,10 +36,11 @@ Open [http://localhost:3000](http://localhost:3000) with your browser.
 |	-	|	-	|	-	|
 |	POST	|	/api/auth/signup	|	A new user is added to the database if the input fields are not empty and the user does not exist yet	|
 | GET | /api/restaurants | Retrieves all restaurants |
-| GET | /api/restaurants/:id | Retrieves one restaurant by its id |
+| GET | /api/restaurants/:id | Retrieves one restaurant |
 | GET | /api/users | Retrieves all users |
-| PUT | /api/users | Updates logged user details |
-| DELETE | /api/users | Deletes logged user |
+| GET | /api/users/:id | Retrieves user |
+| PUT | /api/users/:id | Updates user details |
+| DELETE | /api/users/:id | Deletes user |
 
 ### Technologies
 

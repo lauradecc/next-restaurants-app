@@ -8,6 +8,8 @@ export const signup = credentials => UsersService.post('/', credentials)
 
 export const getUsers = () => UsersService.get('/')
 
-export const updateUser = data => UsersService.put('/', data)
+export const getUser = () => UsersService.get(`/${id}`)
 
-export const deleteUser = id => UsersService.delete('/', { data: { id } })
+export const updateUser = data => UsersService.put(`/${data.userId}`, data)
+
+export const deleteUser = id => UsersService.delete(`/${id}`)
