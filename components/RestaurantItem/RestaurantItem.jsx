@@ -1,11 +1,29 @@
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
-import { Button, Card, Row, Col } from 'react-bootstrap'
+import { updateUser } from '../../services/users.service'
+import { Button, Card, Col } from 'react-bootstrap'
+import { useContext } from 'react'
+import { AuthContext } from '../../context/auth.context'
 
 
-export default function RestaurantItem({ restaurant, handleClick, areFavourites }) {
+export default function RestaurantItem({ restaurant, areFavourites }) {
 
   const { data: session } = useSession()
+  const { user, setUser } = useContext(AuthContext)
+
+  const handleClick = async (action, id) => {
+
+    const data = {
+      userId: user._id,
+      restaurantId: id,
+      action
+    }
+
+    const response = await updateUser(data)
+    const updatedUser = response.data.updatedUser
+    setUser(updatedUser)
+
+  }
 
   return (
     <Col md={4} className='mb-4'>
