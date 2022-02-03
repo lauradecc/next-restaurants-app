@@ -1,24 +1,30 @@
 import dbConnect from '../../../lib/dbConnect'
 import User from '../../../models/User.model'
+import { getSession } from 'next-auth/react'
 
 
 export default async function handler(req, res) {
 
   await dbConnect()
 
-  const { method, body } = req // TODO: use body and update hardcoded data
+  const session = await getSession({ req })
+  // console.log('Session ===>', session)
 
-  switch (method) {
-    case 'GET':
-      return getUsers()
-    case 'POST':
-      return createUser()
-    case 'PUT':
-      return updateUser()
-    case 'DELETE':
-      return deleteUser()
-    default:
-      res.status(400).json({ code: 400, message: "Method not managed" })
+  if (session) {
+
+    switch (req.method) {
+      case 'GET':
+        return getUsers()
+      case 'PUT':
+        return updateUser()
+      case 'DELETE':
+        return deleteUser()
+      default:
+        res.status(400).json({ code: 400, message: 'Method not managed' })
+    }
+
+  } else {
+    res.status(401).json({ code: 401, message: 'Unauthorized' })
   }
 
   async function getUsers() {
@@ -26,39 +32,35 @@ export default async function handler(req, res) {
       const users = await User.find()
       return res.status(200).json(users)
     } catch (error) {
-      // res.status(400).json({ success: false })
-      return res.status(400).json({ code: 400, message: "Error retrieving users", error: error.message })
-    }
-  }
-
-  async function createUser() {
-    try {
-      // sin favourite restaurants (signup)
-      const newUser = await User.create({ username: 'teo', password: 'teo', favouriteRestaurants: [] })
-      return res.status(201).json({ code: 201, message: 'User created', newUser })
-    } catch (error) {
-      return res.status(400).json({ code: 400, message: "Error creating user", error: error.message })
+      return res.status(400).json({ code: 400, message: 'Error retrieving users', error: error.message })
     }
   }
 
   async function updateUser() {
     try {
-      const id = '61f64f9ba4bc8f510df67251'
-      const newUserInfo = { username: 'guille', password: 'guille', favouriteRestaurants: [] }
-      const updatedUser = await User.findByIdAndUpdate(id, newUserInfo, { new: true })
+      const { userId, restaurantId, action } = req.body
+      let updatedUser
+      if (action === 'ADD_FAVOURITE') {
+        updatedUser = await User.findByIdAndUpdate(userId, { $push: { favouriteRestaurants: restaurantId } }, { new: true })
+      } else if (action === 'REMOVE_FAVOURITE') {
+        updatedUser = await User.findByIdAndUpdate(userId, { $pull: { favouriteRestaurants: restaurantId } }, { new: true })
+      } else if (action === 'MODIFY_USER_DATA') {
+        // TODO: allow user to modify username/password
+      }
       return res.status(200).json({ code: 200, message: 'User successfully updated', updatedUser })
     } catch (error) {
-      return res.status(400).json({ code: 400, message: "Error updating user", error: error.message })
+      return res.status(400).json({ code: 400, message: 'Error updating user', error: error.message })
     }
   }
 
   async function deleteUser() {
     try {
-      const id = '61f64f9ba4bc8f510df67251'
+      // const { id } = req.body
+      const id = session.user._id
       const toDeleteUser = await User.findByIdAndDelete(id)
       return res.status(200).json({ code: 200, message: 'User successfully deleted', deletedUser: toDeleteUser })
     } catch (error) {
-      return res.status(400).json({ code: 400, message: "Error deleting user", error: error.message })
+      return res.status(400).json({ code: 400, message: 'Error deleting user', error: error.message })
     }
   }
 

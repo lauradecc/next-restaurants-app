@@ -1,27 +1,13 @@
 import axios from 'axios'
 
-class UsersService {
+const UsersService = axios.create({
+  baseURL: `${process.env.NEXT_PUBLIC_API_URL}/users`
+})
 
-  constructor() {
-    this.instance = axios.create({
-      baseURL: `${process.env.API_URL}/users`,
-      withCredentials: true,
-    })
-  }
+export const signup = credentials => UsersService.post('/', credentials)
 
-  getUsers = () => this.instance.get('/')
+export const getUsers = () => UsersService.get('/')
 
-  // getUser = id => this.instance.get(`/${id}`)
+export const updateUser = data => UsersService.put('/', data)
 
-  // sin favourite restaurants
-  createUser = (username, pwd) => this.instance.post("/signup", { email, username, pwd })
-  // signup = (email, username, pwd) => this.instance.post("/signup", { email, username, pwd })
-
-  deleteUser = id => this.instance.delete(`/${id}`)
-
-  updateUser = (id, data) => this.instance.put(`/${id}`, data)
-  // editUserInfo = (name, email, description, profileImage, location) => this.instance.put(`/edit/profile`, { name, email, description, profileImage, location })
-
-}
-
-export default UsersService
+export const deleteUser = id => UsersService.delete('/', { data: { id } })

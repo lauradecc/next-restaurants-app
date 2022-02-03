@@ -1,5 +1,4 @@
-// const { Schema, model } = require("mongoose")
-const { Schema, model, models } = require("mongoose")
+const { Schema, model, models } = require('mongoose')
 
 const userSchema = new Schema({
 
@@ -14,20 +13,19 @@ const userSchema = new Schema({
 
   password: {
     type: String,
-    //required: true,
+    // required: true,
     // minlength: 5
   },
 
+  // TODO: Restaurants model
+  // favouriteRestaurants: [{
+  //   type: Schema.Types.ObjectId,
+  //   ref: 'Restaurant',
+  // }],
   favouriteRestaurants: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Restaurant',
+    type: Number,
   }],
 
-}, { timestamps: true })
-
-
-// const User = model("User", userSchema)
-
-// export default User
+}/*, { timestamps: true }*/)
 
 export default models.User || model('User', userSchema)

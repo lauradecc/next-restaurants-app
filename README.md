@@ -1,8 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TailorChallenge
 
-## Getting Started
+This is a **[Next.js](https://nextjs.org/) restaurant list** project that handles authentication with JWT.
 
-First, run the development server:
+### App functionalities
+
+The app allows users to see all available restaurants and their details. They can mark/unmark them as favourites and check the ones already added in their personal profile, where they are also allowed to delete their account.
+
+### Installation
+
+```sh
+npm install
+```
+
+### .env.local variables needed
+
+```
+NEXTAUTH_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+MONGODB_URI
+```
+
+### Usage
 
 ```bash
 npm run dev
@@ -10,25 +28,27 @@ npm run dev
 yarn dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+### Endpoints
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+|	Method	|	Path	|	Description	|
+|	-	|	-	|	-	|
+|	POST	|	/api/auth/signup	|	A new user is added to the database if the input fields are not empty and the user does not exist yet	|
+| GET | /api/restaurants | Retrieves all restaurants |
+| GET | /api/restaurants/:id | Retrieves one restaurant by its id |
+| GET | /api/users | Retrieves all users |
+| PUT | /api/users | Updates logged user details |
+| DELETE | /api/users | Deletes logged user |
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+### Technologies
 
-## Learn More
+- Next.js
+- React
+- MongoDB
+- Node
+- Javascript (ES6)
 
-To learn more about Next.js, take a look at the following resources:
+### Additional info
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+This challenge has been developed by Laura de Cos for [Tailor Hub](https://github.com/TailorHub-Mad/TailorChallenge/blob/master/instructions.md). First experience with Next.js and JWT.
