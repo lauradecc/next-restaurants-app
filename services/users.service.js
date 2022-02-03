@@ -8,7 +8,7 @@ export const signup = credentials => UsersService.post('/', credentials)
 
 export const getUsers = () => UsersService.get('/')
 
-export const getUser = () => UsersService.get(`/${id}`)
+export const getUser = id => UsersService.get(`/${id}`)
 
 export const updateUser = data => UsersService.put(`/${data.userId}`, data)
 
